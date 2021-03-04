@@ -2,7 +2,7 @@
 #include <QPainter>
 #include <QtMath>
 
-#define DEGREE 4  // dx = dy = (qPow(2, -DEGREE))
+#define DEGREE 3  // dx = dy = (qPow(2, -DEGREE))
 
 #define HSV_RED    0
 #define HSV_BLUE 240
