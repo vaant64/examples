@@ -1,0 +1,33 @@
+<html>
+    <head>
+        <title> Интернет провайдер </title>
+    </head>
+
+    <body bgcolor=silver>
+        <h2> Меню вывода отчёта </h2> <br>
+        <form action=print_report.php method=GET>
+            <table border=0>
+                <tbody>
+                    <tr>
+                        <td align=right> Год </td>
+                        <td> <input type=text name=year> </td>
+                    </tr>
+
+                    <tr>
+                        <td align=right> Месяц </td>
+                        <td> <input type=text name=month> </td>
+                    </tr>
+
+                    <tr>
+                        <td align=right> <input type=reset value=Очистить> </td>
+                        <td align=right> <input type=submit name=send value=Отправить> </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+
+        <form action=../main_menu.html>
+            <input type=submit value="Вернуться в основное меню"> <br>
+        </form>
+    </body>
+</html>

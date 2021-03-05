@@ -1,0 +1,56 @@
+1) -------------------------------------------------
+SELECT ID_LEP, LEPName, COUNT(ID_IV), SUM(LEPCost)
+FROM `internet_provider`.`expenditure` 
+JOIN `internet_provider`.`invoice` USING(ID_IV) 
+JOIN `internet_provider`.`lexpenditure` USING(ID_LEP)
+WHERE YEAR(IDate) = 2017
+GROUP BY ID_LEP;
+----------------------------------------------------
+
+2) -------------------------------------------------
+SELECT ID_IS, ILName, COUNT(ID_IV), SUM(IAllCost)
+FROM `internet_provider`.`installer` 
+JOIN `internet_provider`.`invoice` USING(ID_IS)
+WHERE YEAR(IDate) = 2017
+GROUP BY ID_IS;
+----------------------------------------------------
+
+3) -------------------------------------------------
+SELECT *
+FROM `internet_provider`.`installer`
+WHERE IFDate = (Select MIN(IFDate)
+		FROM `internet_provider`.`installer`);
+----------------------------------------------------
+
+4) -------------------------------------------------
+SELECT ID_IS, IPassport, IFName, ILName, IBirthday, IAllCost
+FROM `internet_provider`.`invoice` 
+JOIN `internet_provider`.`installer` USING(ID_IS)
+WHERE YEAR(IDate) = 2017 AND IAllCost = (SELECT MAX(IAllCost) 
+					FROM `internet_provider`.`invoice`)
+GROUP BY ID_IS;
+----------------------------------------------------
+
+5) -------------------------------------------------
+SELECT ID_IS, IPassport, IFName, ILName, IBirthday
+FROM `internet_provider`.`installer` 
+LEFT JOIN `internet_provider`.`invoice` USING(ID_IS)
+WHERE ID_IV IS NULL
+GROUP BY ID_IS;
+----------------------------------------------------
+
+6) -------------------------------------------------
+SELECT ID_IS, IPassport, IFName, ILName, IBirthday
+FROM `internet_provider`.`installer` 
+LEFT JOIN (SELECT * 
+	   FROM `internet_provider`.`invoice`
+  	   WHERE YEAR(IDate) = 2017 AND MONTH(IDate) = 03)
+  	   Iv2017_03
+USING(ID_IS)
+WHERE ID_IV IS NULL
+GROUP BY ID_IS;
+
+print) ---------------------------------------------
+SELECT *
+FROM `internet_provider`.`report`
+WHERE R_Year = $year AND R_Month = $month;

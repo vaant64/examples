@@ -1,0 +1,37 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Add_report`(TYear CHAR(4), TMonth CHAR(2))
+BEGIN
+        DECLARE TID INTEGER;
+        DECLARE TName CHAR(128);
+        DECLARE TCount INTEGER;
+        DECLARE TSum INTEGER;
+
+        DECLARE Control INTEGER;
+        DECLARE Done INTEGER DEFAULT 0;
+        DECLARE Rep CURSOR FOR
+                SELECT ID_LSV, LSVName, COUNT(SVName), SUM(SVCost)
+                FROM `internet_provider`.`lservice` LEFT JOIN (
+                     SELECT ID_LSV, SVName, SVCost
+                     FROM `internet_provider`.`service`
+                     JOIN `internet_provider`.`invoice` USING(ID_IV)
+                     WHERE YEAR(IDate) = TYear AND MONTH(IDate) = TMonth)
+                     Temp
+                USING(ID_LSV)
+                GROUP BY ID_LSV;
+        DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET Done = 1;
+
+       	OPEN Rep;
+        REPEAT
+        	FETCH Rep INTO TID, TName, TCount, TSum;
+                IF TSum IS NULL THEN
+                	SET TSum = 0;
+                END IF;
+
+                IF Done = 0 THEN
+                	INSERT INTO `internet_provider`.`report`
+                        VALUES(NULL, TYear, TMonth, TName, TCount, TSum);
+                END IF;
+        UNTIL Done = 1
+       	END REPEAT;
+
+        CLOSE Rep;
+END
