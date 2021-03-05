@@ -8,9 +8,7 @@
         $pdo = new PDO("mysql: $host; $db_name", $login, $password);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     } catch(PDOException $e) {
-        echo "Îøèáêà ïîäêëþ÷åíèÿ ê áàçå äàííûõ $db_name: ", $e->getMessage();
+        echo "ÃŽÃ¸Ã¨Ã¡ÃªÃ  Ã¯Ã®Ã¤ÃªÃ«Ã¾Ã·Ã¥Ã­Ã¨Ã¿ Ãª Ã¡Ã Ã§Ã¥ Ã¤Ã Ã­Ã­Ã»Ãµ $db_name: ", $e->getMessage();
         exit();
     }
-
-    mysql_set_charset('windows-1251');
 ?>
